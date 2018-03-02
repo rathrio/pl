@@ -1,0 +1,33 @@
+* What kinds of stacks does PostScript manage and what are their roles?
+
+  - Operand stack: Used for all computation. Holds operands and results of
+    operators.
+  - Dictionary stack: Holds key-value dictionaries
+  - Execution stack: Holds executable objects, e.g. procedures in various stages
+    of execution.
+  - Graphics state stack: Keeps track of graphical state, e.g. current
+    coordinates. Makes it easier to work with different coordinate systems.
+
+
+* What is the way of defining a procedure in the PostScript program?
+
+  You define procedures by binding names to a literal or executable object. The
+  syntax has to following scheme:
+
+      <key> <value> def
+
+  The following definition binds a procedure object to the name "average":
+
+      /average { add 2 div } def
+
+
+* What are the roles of a dictionary and the dictionary stack in the PostScript
+  program execution?
+
+  Dictionaries are key-value storages that allocate space for local variables.
+  It's also a scoping mechanism: by defining a dictionary and pushing it to the
+  dictionary stack, we make sure that the names do not clash with names in
+  other procedures' dictionaries.
+
+  The dictionary stack keeps track of the dictonaries and plays a similar role
+  as the runtime stack in most programming languages.
