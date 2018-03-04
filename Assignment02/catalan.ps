@@ -1,0 +1,67 @@
+/LM 100 def % left margine
+/UM 700 def % upper margine
+/FS 18 def % font size
+
+/Times-Roman findfont
+FS scalefont
+setfont
+
+/showNum {
+  % define a procedure to show a number
+  20 string cvs show
+} def
+
+/factorial {
+  % define a procedure to calculate n!
+  % see slide 26
+  dup 1 lt
+  { pop 1 } % if n < 1
+  {         % else
+    dup
+    1
+    sub
+    factorial
+    mul
+  }
+  ifelse
+} def
+
+/newLine {
+  % define a procedure to start a new line
+  % see slide 27
+  currentpoint exch pop
+  FS 2 add sub
+  LM exch moveto
+} def
+
+% n -> (2n)! / (n+1)! * n!
+/computeCatalan {
+  dup             % n n
+  2 mul factorial % n (2n)!
+  exch            % (2n!) n
+  dup             % (2n!) n n
+  factorial       % (2n!) n n!
+  exch            % (2n!) n! n
+  1 add factorial % (2n!) n! (n+1)!
+  mul             % (2n!) n!*(n+1)!
+  div             % (2n!) / n!*(n+1)!
+} def
+
+/catalan {
+  % the main procedure
+  1 exch 0 % n 1 -> 1 n 0
+  3 1 roll % 1 n 0 -> 0 1 n
+  {
+    (C \( n = ) show
+    dup showNum
+    ( \) = ) show
+    computeCatalan showNum
+    newLine
+  } for
+} def
+
+
+% Usage: n catalan
+LM UM moveto
+17 catalan
+showpage
