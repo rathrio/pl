@@ -32,19 +32,25 @@ setfont
 % The procedure that draws one star
 % usage: x y rad star
 /star {
-  
+  /rad exch def
+  /y exch def
+  /x exch def
+  newpath
+
   % move to x y
   % move up rad or directly to top left corner of star
-  % draw star and closepath
 
-  newpath
-  300 400 moveto
+
+  x y moveto
   currentpoint translate
-  4 { 200 starside } repeat
+
+  % draw star and closepath
+  4 { rad starsideLength starside } repeat
   closepath
 } def
 
 /draw {
+  /n exch def
   % n-times draw a star, decrease radius and fill color
   star
   .5 setgray fill
