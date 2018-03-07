@@ -49,7 +49,7 @@ setfont
   % the main procedure
   1 exch 0 % n 1 -> 1 n 0
   3 1 roll % 1 n 0 -> 0 1 n
-  {
+  {        % for 0 to n do ...
     (C \( n = ) show
     dup showNum
     ( \) = ) show
@@ -59,7 +59,10 @@ setfont
 } def
 
 
-% Usage: n catalan
 LM UM moveto
+
+% Usage: n catalan
+% Note that "18 catalan" results in numbers that are too large for postscript
+% to deal with.
 17 catalan
 showpage

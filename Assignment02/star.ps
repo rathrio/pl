@@ -1,11 +1,55 @@
+% For debugging purposes
+/Times-Roman findfont
+18 scalefont
+setfont
+
+% For debugging purposes
+/showNum {
+  % define a procedure to show a number
+  20 string cvs show
+} def
+
+
+% Finds the starside length using the law of cosines
+% r -> sqrt(r^2 + r^2 - 2r^2 * cos(144))
+/starsideLength {
+  /r exch def
+  r r mul dup   % n^2 n^2
+  add           % n^2+n^2
+  2 r r mul mul % n^2 + n^2 2n^2
+  144 cos mul   % n^2 + n^2 2n^2 * cos(144)
+  sub sqrt      % sqrt(n^2 + n^2 - 2n^2 * cos(144))
+} def
+
+% Draws line with length n and removes it from stack
+% n -> _
+/starside {
+  0 lineto % n 0 lineto
+  currentpoint translate
+  -144 rotate
+} def
+
+% The procedure that draws one star
+% usage: x y rad star
 /star {
-  % the procedure that draws one star
-  % usage: x y rad star
+  
+  % move to x y
+  % move up rad or directly to top left corner of star
+  % draw star and closepath
+
+  newpath
+  300 400 moveto
+  currentpoint translate
+  4 { 200 starside } repeat
+  closepath
 } def
 
 /draw {
-  % the main procedure which draws all the stars
+  % n-times draw a star, decrease radius and fill color
+  star
+  .5 setgray fill
 } def
 
 % usage: x y rad n draw
 300 400 200 10 draw
+showpage
