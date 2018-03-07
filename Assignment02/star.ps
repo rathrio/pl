@@ -2,14 +2,15 @@
 % r -> sqrt(r^2 + r^2 - 2r^2 * cos(144))
 /starsideLength {
   /r exch def
-  r r mul dup   % n^2 n^2
-  add           % n^2+n^2
-  2 r r mul mul % n^2 + n^2 2n^2
-  144 cos mul   % n^2 + n^2 2n^2 * cos(144)
-  sub sqrt      % sqrt(n^2 + n^2 - 2n^2 * cos(144))
+  r r mul dup   % r^2 r^2
+  add           % r^2 + r^2
+  2 r r mul mul % r^2 + r^2 2r^2
+  144 cos mul   % r^2 + r^2 2r^2 * cos(144)
+  sub sqrt      % sqrt(r^2 + r^2 - 2r^2 * cos(144))
 } def
 
-% Draws line with length n and removes it from stack
+% Draws starside line with length n and removes it from stack. Rotates
+% coordinate system for next starside stroke.
 % n -> _
 /starside {
   0 lineto % n 0 lineto
@@ -18,7 +19,7 @@
 } def
 
 % Define a dictionary for star locals and allocate enough space
-/stardict 14 dict def
+/stardict 3 dict def
 stardict begin
   /mtrx matrix def
 end
@@ -30,6 +31,7 @@ end
     /rad exch def
     /y exch def
     /x exch def
+    /length rad starsideLength def
 
     % save coordinate system
     mtrx currentmatrix
@@ -37,11 +39,12 @@ end
     % move to top point
     x y rad add moveto
 
+    % rotate so that we start drawing to bottom right
     -72 rotate
     currentpoint translate
 
-    % draw star and closepath
-    4 { rad starsideLength starside } repeat
+    % draw starsides and closepath
+    4 { length starside } repeat
     closepath
 
     % restore coordinate system
@@ -52,19 +55,19 @@ end
 /draw {
   /n exch def
   /max_rad exch def
-  /max_y exch def
-  /max_x exch def
+  /orig_y exch def
+  /orig_x exch def
 
   /rad_i max_rad def
 
   0 1 n {
     /i exch def
-    max_x max_y rad_i star
+    orig_x orig_y rad_i star
 
     % Color i/n
     i n div setgray fill
 
-    % Decrease radius for next iteration
+    % Decrease radius by radius/n for next iteration
     /rad_i rad_i max_rad n div sub def
   } for
 } def
