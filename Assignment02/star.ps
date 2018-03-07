@@ -63,12 +63,23 @@ end
 
 /draw {
   /n exch def
-  % n-times draw a star, decrease radius and fill color
-  star
+  /max_rad exch def
+  /max_y exch def
+  /max_x exch def
+  /gray_delta 1 n div def
+
+  0 1 n {
+    /i exch def
+
+    max_x max_y max_rad star
+
+    0 i gray_delta mul add
+    setgray fill
+  } for
+
 } def
 
 % usage: x y rad n draw
 300 400 200 10 draw
-0 setgray fill
 
 showpage
