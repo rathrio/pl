@@ -1,14 +1,3 @@
-% For debugging purposes
-/Times-Roman findfont
-18 scalefont
-setfont
-
-% For debugging purposes
-/showNum {
-  % define a procedure to show a number
-  20 string cvs show
-} def
-
 % Finds the starside length given the radius using the law of cosines
 % r -> sqrt(r^2 + r^2 - 2r^2 * cos(144))
 /starsideLength {
@@ -28,6 +17,7 @@ setfont
   -144 rotate
 } def
 
+% Define a dictionary for star locals and allocate enough space
 /stardict 14 dict def
 stardict begin
   /mtrx matrix def
@@ -43,8 +33,6 @@ end
 
     % save coordinate system
     mtrx currentmatrix
-
-    % newpath
 
     % move to top point
     x y rad add moveto
@@ -66,20 +54,21 @@ end
   /max_rad exch def
   /max_y exch def
   /max_x exch def
-  /gray_delta 1 n div def
+
+  /rad_i max_rad def
 
   0 1 n {
     /i exch def
+    max_x max_y rad_i star
 
-    max_x max_y max_rad star
+    % Color i/n
+    i n div setgray fill
 
-    0 i gray_delta mul add
-    setgray fill
+    % Decrease radius for next iteration
+    /rad_i rad_i max_rad n div sub def
   } for
-
 } def
 
 % usage: x y rad n draw
 300 400 200 10 draw
-
 showpage
