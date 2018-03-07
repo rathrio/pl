@@ -9,8 +9,7 @@ setfont
   20 string cvs show
 } def
 
-
-% Finds the starside length using the law of cosines
+% Finds the starside length given the radius using the law of cosines
 % r -> sqrt(r^2 + r^2 - 2r^2 * cos(144))
 /starsideLength {
   /r exch def
@@ -29,33 +28,47 @@ setfont
   -144 rotate
 } def
 
+/stardict 14 dict def
+stardict begin
+  /mtrx matrix def
+end
+
 % The procedure that draws one star
 % usage: x y rad star
 /star {
-  /rad exch def
-  /y exch def
-  /x exch def
-  newpath
+  stardict begin
+    /rad exch def
+    /y exch def
+    /x exch def
 
-  % move to x y
-  % move up rad or directly to top left corner of star
+    % save coordinate system
+    mtrx currentmatrix
 
+    % newpath
 
-  x y moveto
-  currentpoint translate
+    % move to top point
+    x y rad add moveto
 
-  % draw star and closepath
-  4 { rad starsideLength starside } repeat
-  closepath
+    -72 rotate
+    currentpoint translate
+
+    % draw star and closepath
+    4 { rad starsideLength starside } repeat
+    closepath
+
+    % restore coordinate system
+    mtrx setmatrix
+  end
 } def
 
 /draw {
   /n exch def
   % n-times draw a star, decrease radius and fill color
   star
-  .5 setgray fill
 } def
 
 % usage: x y rad n draw
 300 400 200 10 draw
+0 setgray fill
+
 showpage
