@@ -16,7 +16,8 @@ insert i n l = do
   where (l1, l2) = splitAt i l
 
 -- Exercise 4
-indexes n l = undefined
+withIndices l = zip [0..] l
+indexes n l = map (\(i, e) -> i) (filter (\(i, e) -> e == n) (withIndices l))
 
 -- TESTS
 tests = TestList [
@@ -33,8 +34,8 @@ tests = TestList [
   (TestCase (assertEqual "not correct" [2, 3, 4, 5, 1] (insert 7 1 [2..5]))),
 
   -- exercise 4
-  -- (TestCase (assertEqual "not correct" [] (indexes 1 [0,0,0]))),
-  -- (TestCase (assertEqual "not correct" [0, 5] (indexes 6 [6, 3, 4, 5, 1, 6, 5]))),
+  (TestCase (assertEqual "not correct" [] (indexes 1 [0,0,0]))),
+  (TestCase (assertEqual "not correct" [0, 5] (indexes 6 [6, 3, 4, 5, 1, 6, 5]))),
 
   -- default check
   (TestCase (assertEqual "" True  True )) ]
