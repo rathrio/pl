@@ -1,15 +1,16 @@
 import Test.HUnit
 
-
 -- Exercise 1
 factorial n = product [1..n]
-
 catalan n = factorial (2 * n) / (factorial (n + 1) * factorial n)
-
 firstNCatalan n = map catalan [0..n]
 
+
 -- Exercise 2
-perfectNumbers n m = undefined
+divisors n = filter (\x -> n `mod` x == 0) [1..n]
+isPerfectNumber n = (sum (divisors n)) `div` 2 == n
+perfectNumbers n m = filter isPerfectNumber [(n + 1)..(m - 1)]
+
 
 -- Exercise 3
 insert i n l = undefined
@@ -24,8 +25,8 @@ tests = TestList [
   (TestCase (assertEqual "not correct" [1, 1, 2, 5, 14, 42, 132] (firstNCatalan 6 ))),
 
   -- exercise 2
-  -- (TestCase (assertEqual "not correct" [6]     (perfectNumbers 1 28))),
-  -- (TestCase (assertEqual "not correct" [6, 28] (perfectNumbers 1 29 ))),
+  (TestCase (assertEqual "not correct" [6]     (perfectNumbers 1 28))),
+  (TestCase (assertEqual "not correct" [6, 28] (perfectNumbers 1 29 ))),
 
   -- exercise 3
   -- (TestCase (assertEqual "not correct" [1, 2, 3, 4, 5] (insert 0 1 [2..5]))),
