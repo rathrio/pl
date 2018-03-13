@@ -14,9 +14,11 @@ perfectNumbers n m = filter isPerfectNumber [(n + 1)..(m - 1)]
 -- Note that I don't use the built in splitAt function, but define my own with
 -- custom take and drop functions.
 takeN 0 _ = []
+takeN n [] = []
 takeN n [x] = [x]
 takeN n (head:tail) = head:(takeN (n - 1) tail)
 dropN 0 l = l
+dropN n [] = []
 dropN n [x] = []
 dropN n (_:tail) =  dropN (n - 1) tail
 splitListAt i l = ((takeN i l), (dropN i l))
