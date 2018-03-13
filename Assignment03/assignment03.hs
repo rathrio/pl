@@ -11,9 +11,19 @@ isPerfectNumber n = (sum (divisors n)) `div` 2 == n
 perfectNumbers n m = filter isPerfectNumber [(n + 1)..(m - 1)]
 
 -- Exercise 3
+-- Note that I don't use the built in splitAt function, but define my own with
+-- custom take and drop functions.
+takeN 0 _ = []
+takeN n [x] = [x]
+takeN n (head:tail) = head:(takeN (n - 1) tail)
+dropN 0 l = l
+dropN n [x] = []
+dropN n (_:tail) =  dropN (n - 1) tail
+splitListAt i l = ((takeN i l), (dropN i l))
+
 insert i n l = do
   l1 ++ [n] ++ l2
-  where (l1, l2) = splitAt i l
+  where (l1, l2) = splitListAt i l
 
 -- Exercise 4
 withIndices l = zip [0..] l
