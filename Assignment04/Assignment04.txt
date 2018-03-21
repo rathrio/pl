@@ -1,11 +1,11 @@
 Exercise 1
 ----------
 
-factors :: Int -> [Int] is a monomorphic function. By examining the definition,
-it takes one argument and returns a list, so its shape is "a -> [a]". Given the
-type information of mod, we can refine the types of n and the values used in
-the list comprehension to Ints. It's a monomorphic function, because it only
-works with arguments of type Int.
+factors :: Int -> [Int] is a monomorphic function. It takes one argument and it
+returns a list, so its shape is "a -> [a]". Given the type information of mod,
+we can refine the types of n and the values used in the list comprehension to
+Ints. It's a monomorphic function, because it only works with arguments of type
+Int.
 
 isPerfect :: Int -> Bool is a monomorphic function. It's obvious that it takes
 one argument and returns the result of a comparison, thus we can state "a ->
@@ -43,7 +43,7 @@ below.
 
 By examining the function call "f (f x)" in (3), we can infer that f's argument
 has the same type as f's return value and x (which in Hindley-Milner would be
-multiple steps starting at examing the expression "x" -> "f x" -> ...):
+multiple steps starting at examining the expression "x" -> "f x" -> ...):
 
     f1 :: (a -> a) -> a -> [b]
 
