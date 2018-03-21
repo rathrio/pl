@@ -13,14 +13,15 @@ Bool". We have previously inferred that factors takes an argument of type Int,
 therefore isPerfect's argument can be refined to an Int as well. It's a
 monomorphic function, because it only works with arguments of type Int.
 
-insert :: Int -> a -> [a] -> [a] is a polymorphic function. By examining the
-second partial definition alone, we can infer that the function takes an Int, a
-value of unknown type, and a list of said type and returns a list with the same
-type, because Haskell lists are homogeneous. No further refinements can be
-made, thus making this a polymorphic function. Both should work for example:
+insert :: a -> b -> [b] -> [b] is a polymorphic function. By examining the
+second partial definition alone, we can infer that the function takes a value
+with a numerical type (note: not a specific type), a value of unknown type, and
+a list of said unknown type and returns a list with the same type, because
+Haskell lists are homogeneous.  No further refinements can be made, thus making
+this a polymorphic function. Both should work for example:
 
     insert 0 33 [1, 2, 3]
-    insert 0 "s" ["c", "o", "r", "e"]
+    insert 1.0 "c" ["s", "o", "r", "e"]
 
 
 Exercise 2
