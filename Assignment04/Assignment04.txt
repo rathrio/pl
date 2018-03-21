@@ -32,14 +32,19 @@ f1 :: (a -> a) -> a -> [a] is a polymorphic function.
     (2)      | f x < 0 = []
     (3)      | otherwise = x : (f1 f (f x))
 
-By examining the definitions, we see that f1 takes a function f, some other
-value and returns a list:
-
-    f1 :: (a -> b) -> c -> [d]
-
 I'm not 100% sure in which order Hindley-Milner would apply the rules, but I
 assume it builds an AST and infers bottom up. So it could work like listed
 below.
+
+By examining the definition and "[]" in (2), we can infer that f1 takes two
+arguments and returns a list:
+
+    f1 :: a -> b -> [c]
+
+By examining the innermost function call "f x" in (3), we can infer that f is a
+function that takes one argument.
+
+    f1 :: (a -> b) -> c -> [d]
 
 By examining the function call "f (f x)" in (3), we can infer that f's argument
 has the same type as f's return value and x (which in Hindley-Milner would be
@@ -54,13 +59,10 @@ list have the same type as x, since lists are homogeneous:
 
 By examining the comparison "f x < 0" in (2), we can infer that the return
 value of f has to be an ordered, numerical type, i.e. "a" has to be part of
-typeclass Ord and Num, but we cannot further refine it to a specific type.
+typeclasses Ord and Num, but we cannot further refine it to a specific type.
 
 
 Exercise 3
 ----------
 
 See deleteRepetitions.hs
-
-
-
