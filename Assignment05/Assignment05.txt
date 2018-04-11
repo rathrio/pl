@@ -1,0 +1,33 @@
+Exercise 1
+----------
+
+1. (λ x . x) y (λ y . y x) x
+
+   fv((λ x . x) y (λ y . y x) x)
+       = fv(λ x . x) ∪ fv(y) ∪ fv(λ y . y x) ∪ fv(x)
+       = { }         ∪ { y } ∪ { x }         ∪ { x }
+       = { x, y }
+
+   - x is bound in (λ x . x)
+   - y is bound in (λ y . y x)
+
+2. ((λ x . λ y . λ z . x y z) (λ x . y x) y) (λ x . z x)
+
+   fv(((λ x . λ y . λ z . x y z) (λ x . y x) y) (λ x . z x))
+       = fv(λ x . λ y . λ z . x y z) ∪ fv(λ x . y x) ∪ fv(y) ∪ fv(λ x . z x)
+       = { }                         ∪ { y }         ∪ { y } ∪ { z }
+       = { y, z }
+
+   - x, y and z are bound in (λ x . λ y . λ z . x y z)
+   - x is bound in (λ x . y x)
+   - x is bound in (λ x . z x)
+
+
+Exercise 2
+----------
+
+Exercise 3
+----------
+
+1. (λ x . (λ z . z y) x) (λ x . x)
+2. (λ x . x x y) (λ x . x x y)
