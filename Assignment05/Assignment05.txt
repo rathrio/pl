@@ -26,6 +26,24 @@ Exercise 1
 Exercise 2
 ----------
 
+True  = λ x y . x
+False = λ x y . y
+
+and   = λ x y . x y False
+or    = λ x y . x True y
+
+and True False
+    = (λ x y . x y False) True False
+  ->  (λ y . True y False) False           β reduction
+  ->  True False False                     β reduction
+  ->  False
+
+or True False
+    = (λ x y . x True y) True False
+  ->  (λ y . True True y) False            β reduction
+  ->  True True False                      β reduction
+  ->  True
+
 
 Exercise 3
 ----------
