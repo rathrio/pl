@@ -26,8 +26,23 @@ Exercise 1
 Exercise 2
 ----------
 
+
 Exercise 3
 ----------
 
 1. (λ x . (λ z . z y) x) (λ x . x)
-2. (λ x . x x y) (λ x . x x y)
+
+   ->  (λ z . z y) (λ x . x)      η reduction
+
+   ->  [(λ x . x) / z] z y        β reduction
+   ->  (λ x . x) y
+
+   ->  [y / x] x                  β reduction
+   ->  y
+
+
+2. (λ x . x x y) (λ x . x x y) has no normal form.
+
+   -> (λ x . x x y) (λ x . x x y) y         β reduction
+   -> ((λ x . x x y) (λ x . x x y) y) y     β reduction
+   -> ...
