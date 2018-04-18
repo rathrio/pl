@@ -1,30 +1,60 @@
 Exercise 1
 ----------
 
-times = λn1 . λn2 . if (isZero n1) 0 (add n2 (times (pred n1) n2))
+    times = λn1 . λn2 . if (isZero n1) 0 (add n2 (times (pred n1) n2))
+    t     = λf . λn1 . λn2 . if (isZero n1) 0 (add n2 (f (pred n1) n2))
+    Y     ≡ λf . (λx . f (x x)) (λx . f (x x))
 
-t     = λf . λn1 . λn2 . if (isZero n1) 0 (add n2 (f (pred n1) n2))
+Show that (((Y t) 1) k) -> k:
 
-Y     ≡ λf . (λx . f (x x)) (λx . f (x x))
-
-(((Y t) 1) k)
-    -> ((λx . t (x x)) (λx . t (x x)) 1) k
-    -> ((t ((λx . t (x x)) (λx . t (x x)))) 1) k
-    -> ((t (Y t)) 1) k
-    -> ((λn1 . λn2 . if (isZero n1) 0 (add n2 ((Y t) (pred n1) n2))) 1) k
-    -> (λn2 . if (isZero 1) 0 (add n2 ((Y t) (pred 1) n2))) k
-    -> if (isZero 1) 0 (add k ((Y t) (pred 1) k))
-    -> add k ((Y t) (pred 1) k)
-    -> add k ((Y t) 0 k)
-    -> add k (((λx . t (x x)) (λx . t (x x)) 0) k)
-    -> add k (((t ((λx . t (x x)) (λx . t (x x)))) 0) k)
-    -> add k (((t (Y t)) 0) k)
-    -> add k (((λn1 . λn2 . if (isZero n1) 0 (add n2 ((Y t) (pred n1) n2))) 0) k)
-    -> add k ((λn2 . if (isZero 0) 0 (add n2 ((Y t) (pred 0) n2))) k)
-    -> add k (if (isZero 0) 0 (add k ((Y t) (pred 0) k)))
-    -> add k 0
-    -> k
+    (((Y t) 1) k)
+        -> ((λx . t (x x)) (λx . t (x x)) 1) k
+        -> ((t ((λx . t (x x)) (λx . t (x x)))) 1) k
+        -> ((t (Y t)) 1) k
+        -> ((λn1 . λn2 . if (isZero n1) 0 (add n2 ((Y t) (pred n1) n2))) 1) k
+        -> (λn2 . if (isZero 1) 0 (add n2 ((Y t) (pred 1) n2))) k
+        -> if (isZero 1) 0 (add k ((Y t) (pred 1) k))
+        -> add k ((Y t) (pred 1) k)
+        -> add k ((Y t) 0 k)
+        -> add k (((λx . t (x x)) (λx . t (x x)) 0) k)
+        -> add k (((t ((λx . t (x x)) (λx . t (x x)))) 0) k)
+        -> add k (((t (Y t)) 0) k)
+        -> add k (((λn1 . λn2 . if (isZero n1) 0 (add n2 ((Y t) (pred n1) n2))) 0) k)
+        -> add k ((λn2 . if (isZero 0) 0 (add n2 ((Y t) (pred 0) n2))) k)
+        -> add k (if (isZero 0) 0 (add k ((Y t) (pred 0) k)))
+        -> add k 0
+        -> k
 
 
 Exercise 2
 ----------
+
+nil    = λf . true
+null   = λl . l (λh . λt . false)
+cons   = λh . λt . λf . fht
+head   = λl . l (λh . λt . h)
+tail   = λl . l (λh . λt . t)
+
+append = λl1 . λl2 . if (null l1) l2 (cons (head l1) (append (tail l1) l2))
+
+If we abstract the name "append", we get the new expression:
+
+    a = λf . λl1 . λl2 . if (null l1) l2 (cons (head l1) (f (tail l1) l2))
+
+By the FP theorem we know that (Y a) is a non-recursive equivalent of the above
+append definition.
+
+    L1 = cons 1 (cons 2 nil)
+    L2 = cons 3 nil
+
+Show that (((Y a) L1) L2) -> (cons 1 (cons 2 (cons 3 nil))):
+
+    (((Y a) L1) L2)
+        -> (((λx . a (x x)) (λx . a (x x)) L1) L2)
+        -> (((a ((λx . a (x x)) (λx . a (x x)))) L1) L2)
+        -> (((a (Y a)) L1) L2)
+        -> (((λl1 . λl2 . if (null l1) l2 (cons (head l1) ((Y a) (tail l1) l2))) L1) L2)
+        -> ((λl2 . if (null L1) l2 (cons (head L1) ((Y a) (tail L1) l2))) L2)
+        -> (if (null L1) L2 (cons (head L1) ((Y a) (tail L1) L2)))
+
+
