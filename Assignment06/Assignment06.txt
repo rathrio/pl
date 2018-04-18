@@ -1,0 +1,30 @@
+Exercise 1
+----------
+
+times = λn1 . λn2 . if (isZero n1) 0 (add n2 (times (pred n1) n2))
+
+t     = λf . λn1 . λn2 . if (isZero n1) 0 (add n2 (f (pred n1) n2))
+
+Y     ≡ λf . (λx . f (x x)) (λx . f (x x))
+
+(((Y t) 1) k)
+    -> ((λx . t (x x)) (λx . t (x x)) 1) k
+    -> ((t ((λx . t (x x)) (λx . t (x x)))) 1) k
+    -> ((t (Y t)) 1) k
+    -> ((λn1 . λn2 . if (isZero n1) 0 (add n2 ((Y t) (pred n1) n2))) 1) k
+    -> (λn2 . if (isZero 1) 0 (add n2 ((Y t) (pred 1) n2))) k
+    -> if (isZero 1) 0 (add k ((Y t) (pred 1) k))
+    -> add k ((Y t) (pred 1) k)
+    -> add k ((Y t) 0 k)
+    -> add k (((λx . t (x x)) (λx . t (x x)) 0) k)
+    -> add k (((t ((λx . t (x x)) (λx . t (x x)))) 0) k)
+    -> add k (((t (Y t)) 0) k)
+    -> add k (((λn1 . λn2 . if (isZero n1) 0 (add n2 ((Y t) (pred n1) n2))) 0) k)
+    -> add k ((λn2 . if (isZero 0) 0 (add n2 ((Y t) (pred 0) n2))) k)
+    -> add k (if (isZero 0) 0 (add k ((Y t) (pred 0) k)))
+    -> add k 0
+    -> k
+
+
+Exercise 2
+----------
