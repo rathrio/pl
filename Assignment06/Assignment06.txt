@@ -57,4 +57,51 @@ Show that (((Y a) L1) L2) -> (cons 1 (cons 2 (cons 3 nil))):
         -> ((λl2 . if (null L1) l2 (cons (head L1) ((Y a) (tail L1) l2))) L2)
         -> (if (null L1) L2 (cons (head L1) ((Y a) (tail L1) L2)))
 
+        // Reducing the if "condition" (null L1)
+        -> (if (L1 (λh . λt . false)) L2 (cons (head L1) ((Y a) (tail L1) L2)))
+        -> (if ((cons 1 (cons 2 nil)) (λh . λt . false)) L2 (cons (head L1) ((Y a) (tail L1) L2)))
+        -> (if ((λf . f 1 (cons 2 nil)) (λh . λt . false)) L2 (cons (head L1) ((Y a) (tail L1) L2)))
+        -> (if ((λh . λt . false) 1 (cons 2 nil)) L2 (cons (head L1) ((Y a) (tail L1) L2)))
+        -> (if false L2 (cons (head L1) ((Y a) (tail L1) L2)))
 
+        -> (cons (head L1) ((Y a) (tail L1) L2))
+        -> (cons (L1 (λh . λt . h)) ((Y a) (tail L1) L2))
+        -> (cons ((cons 1 (cons 2 nil)) (λh . λt . h)) ((Y a) (tail L1) L2))
+        -> (cons ((λf . f 1 (cons 2 nil)) (λh . λt . h)) ((Y a) (tail L1) L2))
+        -> (cons ((λh . λt . h) 1 (cons 2 nil)) ((Y a) (tail L1) L2))
+        -> (cons 1 ((Y a) (tail L1) L2))
+        -> (cons 1 ((Y a) (L1 (λh . λt . t)) L2))
+        -> (cons 1 ((Y a) ((cons 1 (cons 2 nil)) (λh . λt . t)) L2))
+        -> (cons 1 ((Y a) ((λf . f 1 (cons 2 nil)) (λh . λt . t)) L2))
+        -> (cons 1 ((Y a) ((λh . λt . t) 1 (cons 2 nil)) L2))
+        -> (cons 1 ((Y a) (cons 2 nil) L2))
+
+        // Reducing (Y a) as seen in the beginning
+        -> (cons 1 ((λl1 . λl2 . if (null l1) l2 (cons (head l1) ((Y a) (tail l1) l2))) (cons 2 nil) L2))
+        -> (cons 1 (if (null (cons 2 nil)) L2 (cons (head (cons 2 nil)) ((Y a) (tail (cons 2 nil)) L2))))
+
+        // Reducing the if "condition" (null (cons 2 nil))
+        -> (cons 1 (if ((cons 2 nil) (λh . λt . false)) L2 (cons (head (cons 2 nil)) ((Y a) (tail (cons 2 nil)) L2))))
+        -> (cons 1 (if ((λf . f 2 nil) (λh . λt . false)) L2 (cons (head (cons 2 nil)) ((Y a) (tail (cons 2 nil)) L2))))
+        -> (cons 1 (if ((λh . λt . false) 2 nil) L2 (cons (head (cons 2 nil)) ((Y a) (tail (cons 2 nil)) L2))))
+        -> (cons 1 (if false L2 (cons (head (cons 2 nil)) ((Y a) (tail (cons 2 nil)) L2))))
+
+        -> (cons 1 (cons (head (cons 2 nil)) ((Y a) (tail (cons 2 nil)) L2)))
+        -> (cons 1 (cons ((cons 2 nil) (λh . λt . h)) ((Y a) (tail (cons 2 nil)) L2)))
+        -> (cons 1 (cons ((λf . f 2 nil) (λh . λt . h)) ((Y a) (tail (cons 2 nil)) L2)))
+        -> (cons 1 (cons 2 ((Y a) (tail (cons 2 nil)) L2)))
+
+        // Reducing (Y a) as seen in the beginning
+        -> (cons 1 (cons 2 ((λl1 . λl2 . if (null l1) l2 (cons (head l1) ((Y a) (tail l1) l2))) (tail (cons 2 nil)) L2)))
+        -> (cons 1 (cons 2 (if (null (tail (cons 2 nil))) L2 (cons (head (tail (cons 2 nil))) ((Y a) (tail (tail (cons 2 nil))) L2)))))
+
+        // Reducing the if "condition" (null (tail (cons 2 nil)))
+        -> (cons 1 (cons 2 (if (null ((cons 2 nil) (λh . λt . t))) L2 (cons (head (tail (cons 2 nil))) ((Y a) (tail (tail (cons 2 nil))) L2)))))
+        -> (cons 1 (cons 2 (if (null ((λf . f 2 nil) (λh . λt . t))) L2 (cons (head (tail (cons 2 nil))) ((Y a) (tail (tail (cons 2 nil))) L2)))))
+        -> (cons 1 (cons 2 (if (null nil) L2 (cons (head (tail (cons 2 nil))) ((Y a) (tail (tail (cons 2 nil))) L2)))))
+        -> (cons 1 (cons 2 (if (nil (λh . λt . false)) L2 (cons (head (tail (cons 2 nil))) ((Y a) (tail (tail (cons 2 nil))) L2)))))
+        -> (cons 1 (cons 2 (if ((λf . true) (λh . λt . false)) L2 (cons (head (tail (cons 2 nil))) ((Y a) (tail (tail (cons 2 nil))) L2)))))
+        -> (cons 1 (cons 2 (if true L2 (cons (head (tail (cons 2 nil))) ((Y a) (tail (tail (cons 2 nil))) L2)))))
+
+        -> (cons 1 (cons 2 L2))
+        -> (cons 1 (cons 2 (cons 3 nil)))
