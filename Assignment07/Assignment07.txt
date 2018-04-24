@@ -1,0 +1,51 @@
+Exercise 1
+----------
+
+Abstract Syntax:
+
+    Prog ::= 'ON' Stmt
+
+    Stmt ::= Expr 'TOTAL' Stmt
+           | Expr 'TOTAL' 'OFF'
+           
+    Expr ::= Expr1 '+' Expr2
+           | Expr1 '-' Expr2
+           | Expr1 '*' Expr2
+           | Expr1 '/' Expr2
+           | 'IF' Expr1 ',' Expr2 ',' Expr3
+           | 'LASTANSWER'
+           | '(' Expr ')'
+           | Num
+
+Program Semantics:
+
+    P : Program → Int+
+
+    P ⟦ ON S ⟧ = S ⟦ S ⟧ (0)
+
+Statement Semantics:
+
+    S :: ExprSequence → Int → Int+
+
+    S ⟦ E TOTAL S ⟧ (n)   = let n' = E E ⟦ E ⟧ (n) in
+                            cons(n', S ⟦ S ⟧ (n'))
+
+    S ⟦ E TOTAL OFF ⟧ (n) = [ E ⟦ E ⟧ (n) ]
+
+Expression Semantics:
+
+    E : Expression → Int → Int
+
+    E ⟦ E1 + E2 ⟧ (n) = E ⟦ E1 ⟧ (n) + E ⟦ E2 ⟧ (n)
+
+    E ⟦ E1 - E2 ⟧ (n) = E ⟦ E1 ⟧ (n) - E ⟦ E2 ⟧ (n)
+
+    E ⟦ E1 * E2 ⟧ (n) = E ⟦ E1 ⟧ (n) × E ⟦ E2 ⟧ (n)
+
+    E ⟦ E1 / E2 ⟧ (n) = if E ⟦ E2 ⟧ = 0
+                        then "NOT A NUMBER"
+                        else E ⟦ E1 ⟧ (n) / E ⟦ E2 ⟧ (n)
+
+
+Exercise 2
+----------
