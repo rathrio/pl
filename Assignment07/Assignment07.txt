@@ -1,13 +1,13 @@
 Exercise 1
 ----------
 
-Abstract Syntax:
+Abstract Syntax (extended Expr rule):
 
     Prog ::= 'ON' Stmt
 
     Stmt ::= Expr 'TOTAL' Stmt
            | Expr 'TOTAL' 'OFF'
-           
+
     Expr ::= Expr1 '+' Expr2
            | Expr1 '-' Expr2
            | Expr1 '*' Expr2
@@ -17,34 +17,42 @@ Abstract Syntax:
            | '(' Expr ')'
            | Num
 
-Program Semantics:
+Program Semantics (no changes except for type annotation):
 
-    P : Program → Int+
+    P : Program → {Int, String}+
 
     P ⟦ ON S ⟧ = S ⟦ S ⟧ (0)
 
-Statement Semantics:
+Statement Semantics (no changes except for type annotation):
 
-    S :: ExprSequence → Int → Int+
+    S :: ExprSequence → {Int, String} → {Int, String}+
 
     S ⟦ E TOTAL S ⟧ (n)   = let n' = E E ⟦ E ⟧ (n) in
                             cons(n', S ⟦ S ⟧ (n'))
 
     S ⟦ E TOTAL OFF ⟧ (n) = [ E ⟦ E ⟧ (n) ]
 
-Expression Semantics:
+Expression Semantics (now also handling substraction and division):
 
-    E : Expression → Int → Int
+    E : Expression → {Int, String} → {Int, String}
 
-    E ⟦ E1 + E2 ⟧ (n) = E ⟦ E1 ⟧ (n) + E ⟦ E2 ⟧ (n)
+    E ⟦ E1 + E2 ⟧ (n)       = E ⟦ E1 ⟧ (n) + E ⟦ E2 ⟧ (n)
 
-    E ⟦ E1 - E2 ⟧ (n) = E ⟦ E1 ⟧ (n) - E ⟦ E2 ⟧ (n)
+    E ⟦ E1 - E2 ⟧ (n)       = E ⟦ E1 ⟧ (n) - E ⟦ E2 ⟧ (n)
 
-    E ⟦ E1 * E2 ⟧ (n) = E ⟦ E1 ⟧ (n) × E ⟦ E2 ⟧ (n)
+    E ⟦ E1 * E2 ⟧ (n)       = E ⟦ E1 ⟧ (n) × E ⟦ E2 ⟧ (n)
 
-    E ⟦ E1 / E2 ⟧ (n) = if E ⟦ E2 ⟧ = 0
-                        then "NOT A NUMBER"
-                        else E ⟦ E1 ⟧ (n) / E ⟦ E2 ⟧ (n)
+    E ⟦ E1 / E2 ⟧ (n)       = if E ⟦ E2 ⟧ = 0
+                              then "NOT A NUMBER"
+                              else E ⟦ E1 ⟧ (n) / E ⟦ E2 ⟧ (n)
+
+    E ⟦ IF E1, E2, E3 ⟧ (n) = if E ⟦ E1 ⟧ (n) = 0 
+                              then E ⟦ E2 ⟧ (n)
+                              else E ⟦ E3 ⟧ (n)
+
+    E ⟦ LASTANSWER ⟧ (n)    = n
+    E ⟦ (E) ⟧ (n)           = E ⟦ E ⟧ (n)
+    E ⟦ N ⟧ (n)             = N
 
 
 Exercise 2
