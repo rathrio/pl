@@ -1,7 +1,11 @@
 Exercise 1
-----------
+==========
 
-Abstract Syntax (extended Expr rule):
+Abstract Syntax
+---------------
+
+We extend the Expr rule, so that it now knows about subtraction and division of
+two expressions.
 
     Prog ::= 'ON' Stmt
 
@@ -17,43 +21,89 @@ Abstract Syntax (extended Expr rule):
            | '(' Expr ')'
            | Num
 
-Program Semantics (no changes except for type annotation):
+Introducing a new algebraic data type
+-------------------------------------
 
-    P : Program → {Int, String}+
+Since we are now dealing with a program that may also result in Strings in
+addition to Ints, we will introduce a new algebraic data type in our semantic
+domain of functions and properly define the arithmetic functions.
 
-    P ⟦ ON S ⟧ = S ⟦ S ⟧ (0)
+The new data type "Result" provides two constructors: one for constructing a
+String, e.g. "NOT A NUMBER", and one for ordinary Ints. Both typecheck to
+Result.
 
-Statement Semantics (no changes except for type annotation):
+Note that we perform Integer division. So no Floats possible.
 
-    S :: ExprSequence → {Int, String} → {Int, String}+
+    data Result = NaN String | Number Int
 
-    S ⟦ E TOTAL S ⟧ (n)   = let n' = E E ⟦ E ⟧ (n) in
-                            cons(n', S ⟦ S ⟧ (n'))
+    plus, minus, times, divide :: Result -> Result -> Result
 
-    S ⟦ E TOTAL OFF ⟧ (n) = [ E ⟦ E ⟧ (n) ]
+    plus (Number x) (Number y)   = Number (x + y)
+    plus (NaN _) _               = NaN "NOT A NUMBER" 
+    plus _ (NaN _)               = NaN "NOT A NUMBER"
 
-Expression Semantics (now also handling substraction and division):
+    minus (Number x) (Number y)  = Number (x - y)
+    minus (NaN _) _              = NaN "NOT A NUMBER"
+    minus _ (NaN _)              = NaN "NOT A NUMBER"
 
-    E : Expression → {Int, String} → {Int, String}
+    times (Number x) (Number y)  = Number (x * y)
+    times (NaN _) _              = NaN "NOT A NUMBER"
+    times _ (NaN _)              = NaN "NOT A NUMBER"
 
-    E ⟦ E1 + E2 ⟧ (n)       = E ⟦ E1 ⟧ (n) + E ⟦ E2 ⟧ (n)
+    divide (Number _) (Number 0) = NaN "NOT A NUMBER"
+    divide (Number x) (Number y) = Number (x `div` y)
+    divide (NaN _) _             = NaN "NOT A NUMBER"
+    divide _ (NaN _)             = NaN "NOT A NUMBER"
 
-    E ⟦ E1 - E2 ⟧ (n)       = E ⟦ E1 ⟧ (n) - E ⟦ E2 ⟧ (n)
+If you want to try these out in ghci, you'll have to provide some show
+implementations, e.g.:
 
-    E ⟦ E1 * E2 ⟧ (n)       = E ⟦ E1 ⟧ (n) × E ⟦ E2 ⟧ (n)
+    instance Show Result where
+        show (NaN s) = show s
+        show (Number n) = show n
 
-    E ⟦ E1 / E2 ⟧ (n)       = if E ⟦ E2 ⟧ = 0
-                              then "NOT A NUMBER"
-                              else E ⟦ E1 ⟧ (n) / E ⟦ E2 ⟧ (n)
+Program Semantics
+-----------------
 
-    E ⟦ IF E1, E2, E3 ⟧ (n) = if E ⟦ E1 ⟧ (n) = 0 
-                              then E ⟦ E2 ⟧ (n)
-                              else E ⟦ E3 ⟧ (n)
+    P : Program → Result+
 
-    E ⟦ LASTANSWER ⟧ (n)    = n
-    E ⟦ (E) ⟧ (n)           = E ⟦ E ⟧ (n)
-    E ⟦ N ⟧ (n)             = N
+    P ⟦ ON S ⟧ = S ⟦ S ⟧ (Number 0)
 
+Statement Semantics
+-------------------
+
+    S :: ExprSequence → Result → Result+
+
+    S ⟦ E TOTAL S ⟧ (r)   = let r' = E E ⟦ E ⟧ (r)
+                            in cons(r', S ⟦ S ⟧ (r'))
+
+    S ⟦ E TOTAL OFF ⟧ (r) = [ E ⟦ E ⟧ (r) ]
+
+Expression Semantics
+--------------------
+
+Since we have exhaustively defined our arithmetic functions for the Result data
+type, there's not much left to do here besides calling the appropriate
+functions. Note that we're cheating a little here for the if condition
+evaluation. One would have to properly define equality for Results as well.
+
+    E : Expression → Result → Result
+
+    E ⟦ E1 + E2 ⟧ (r)       = plus (E ⟦ E1 ⟧ (r)) (E ⟦ E2 ⟧ (r))
+
+    E ⟦ E1 - E2 ⟧ (r)       = minus (E ⟦ E1 ⟧ (r)) (E ⟦ E2 ⟧ (r))
+
+    E ⟦ E1 * E2 ⟧ (r)       = times (E ⟦ E1 ⟧ (r)) (E ⟦ E2 ⟧ (r))
+
+    E ⟦ E1 / E2 ⟧ (r)       = divide (E ⟦ E1 ⟧ (r)) (E ⟦ E2 ⟧ (r))
+
+    E ⟦ IF E1, E2, E3 ⟧ (r) = if E ⟦ E1 ⟧ (r) = Number 0
+                              then E ⟦ E2 ⟧ (r)
+                              else E ⟦ E3 ⟧ (r)
+
+    E ⟦ LASTANSWER ⟧ (r)    = r
+    E ⟦ (E) ⟧ (r)           = E ⟦ E ⟧ (r)
+    E ⟦ N ⟧ (r)             = N
 
 Exercise 2
 ----------
