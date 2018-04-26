@@ -74,7 +74,7 @@ Statement Semantics
 
     S : ExprSequence → Result → Result+
 
-    S ⟦ E TOTAL S ⟧ (r)   = let r' = E E ⟦ E ⟧ (r)
+    S ⟦ E TOTAL S ⟧ (r)   = let r' = E ⟦ E ⟧ (r)
                             in cons(r', S ⟦ S ⟧ (r'))
 
     S ⟦ E TOTAL OFF ⟧ (r) = [ E ⟦ E ⟧ (r) ]
