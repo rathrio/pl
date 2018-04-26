@@ -39,7 +39,7 @@ Note that we perform Integer division. So no Floats possible.
     plus, minus, times, divide :: Result -> Result -> Result
 
     plus (Number x) (Number y)   = Number (x + y)
-    plus (NaN _) _               = NaN "NOT A NUMBER" 
+    plus (NaN _) _               = NaN "NOT A NUMBER"
     plus _ (NaN _)               = NaN "NOT A NUMBER"
 
     minus (Number x) (Number y)  = Number (x - y)
@@ -72,7 +72,7 @@ Program Semantics
 Statement Semantics
 -------------------
 
-    S :: ExprSequence → Result → Result+
+    S : ExprSequence → Result → Result+
 
     S ⟦ E TOTAL S ⟧ (r)   = let r' = E E ⟦ E ⟧ (r)
                             in cons(r', S ⟦ S ⟧ (r'))
@@ -105,5 +105,61 @@ evaluation. One would have to properly define equality for Results as well.
     E ⟦ (E) ⟧ (r)           = E ⟦ E ⟧ (r)
     E ⟦ N ⟧ (r)             = N
 
+
 Exercise 2
-----------
+==========
+
+Abstract Syntax
+---------------
+
+    Number := Number Digit
+            | Digit
+
+    Digit  := '0'
+            | '1'
+
+Semantics
+---------
+
+Our semantic domain here is the domain of natural numbers (ℕ) where operators
+such as addition (+) and multiplication (*) exist.
+
+Note that the arguments to the semantic functions are AST node representations
+of the numbers/digits and on the right side we have natural numbers. For
+example in "D ⟦ 1 ⟧ = 1", the 1 in the D function argument is an AST node and
+the 1 on the right hand side is the natural number 1.
+
+    N : Number → ℕ
+    N ⟦ N D ⟧ = N ⟦ N ⟧ * 2 + D ⟦ D ⟧
+    N ⟦ D ⟧ = D ⟦ D ⟧
+
+    D : Digit → ℕ
+    D ⟦ D ⟧ = D
+
+Testing
+-------
+
+    N ⟦ 1 ⟧
+        = D ⟦ 1 ⟧
+        = 1
+
+    N ⟦ 0 ⟧
+        = D ⟦ 0 ⟧
+        = 0
+
+    N ⟦ 111 ⟧
+        = N ⟦ 11 ⟧ * 2 + D ⟦ 1 ⟧
+        = N ⟦ 11 ⟧ * 2 + 1
+        = (N ⟦ 1 ⟧ * 2 + D ⟦ 1 ⟧) * 2 + 1
+        = (D ⟦ 1 ⟧ * 2 + 1) * 2 + 1
+        = (1 * 2 + 1) * 2 + 1
+        = 7
+
+    N ⟦ 10101 ⟧
+        = N ⟦ 1010 ⟧ * 2 + D ⟦ 1 ⟧
+        = N ⟦ 1010 ⟧ * 2 + 1
+        = (N ⟦ 101 ⟧ * 2 + D ⟦ 0 ⟧) * 2 + 1
+        = ((N ⟦ 10 ⟧ * 2 + D ⟦ 1 ⟧) * 2 + 0) * 2 + 1
+        = (((N ⟦ 1 ⟧ * 2 + D ⟦ 0 ⟧) * 2 + 1) * 2 + 0) * 2 + 1
+        = (((1 * 2 + 0) * 2 + 1) * 2 + 0) * 2 + 1
+        = 21
