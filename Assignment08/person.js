@@ -31,16 +31,16 @@ console.log("Creating a person instance p2 with name 'Jill' and password 'foobar
 var p2 = new Person("Jill", "foobar");
 
 console.log("\nDemostrating that the name property is accessible");
-console.log("p1's name: " + p1.name);
-console.log("p2's name: " + p2.name);
+console.log("p1.name: " + p1.name);
+console.log("p2.name: " + p2.name);
 
 console.log("\nDemostrating that the password property is not accessible, i.e. undefined");
-console.log("p1's password: " + p1.password);
-console.log("p2's password: " + p2.password);
+console.log("p1.password: " + p1.password);
+console.log("p2.password: " + p2.password);
 
 console.log("\nDemostrating that the password could be accessed via a getter");
-console.log("p1's password via a getter: " + p1.getPassword());
-console.log("p2's password via a getter: " + p2.getPassword());
+console.log("p1.getPassword(): " + p1.getPassword());
+console.log("p2.getPassword(): " + p2.getPassword());
 
 console.log("\nDemostrating that counter is shared");
 console.log("p1.getCounter(): " + p1.getCounter());

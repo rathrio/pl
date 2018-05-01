@@ -1,6 +1,15 @@
 Exercise 1
 ==========
 
+See person.js. Either copy and paste the code into a Javascript console or run
+it with node and check the log output:
+
+    $ node person.js
+
+The comments and log statements should provide the answers for the questions
+asked.
+
+
 Exercise 2
 ==========
 
