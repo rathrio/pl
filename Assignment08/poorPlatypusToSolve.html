@@ -3,31 +3,40 @@
 <title>Platypus</title>
 <script type="text/javascript">
 
-var animal = {};
+var animal = { name: "Animal" };
 
 var mammal = Object.create(animal);
+mammal.name = "Mammal"
 mammal.getNumberOfNipples = function() {
-  console.log("Called getNumberOfNipples()");
+  console.log("Called getNumberOfNipples() on a " + this.name);
 }
 mammal.nurse = function() {
-  console.log("Called nurse()");
+  console.log("Called nurse() on a " + this.name);
 }
 
 var dolphin = Object.create(mammal);
+dolphin.name = "Dolphin"
 dolphin.swim = function() {
-  console.log("Called swim()");
+  console.log("Called swim() on a " + this.name);
 }
 
 var oviparus = Object.create(animal);
+oviparus.name = "Oviparus"
 oviparus.spawn = function() {
-  console.log("Called spawn()");
+  console.log("Called spawn() on a " + this.name);
 }
 
 var snake = Object.create(oviparus);
+snake.name = "Snake"
 snake.crawl = function() {
-  console.log("Called crawl()");
+  console.log("Called crawl() on a " + this.name);
 }
 
+// A platypus is a mammal that can also spawn.
+var platypus = Object.create(mammal);
+platypus.name = "Platypus"
+// Reuse the spawn method provided in the oviparus object.
+platypus.spawn = oviparus.spawn;
 
 </script>
 </head>

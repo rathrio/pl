@@ -13,6 +13,28 @@ asked.
 Exercise 2
 ==========
 
+See poorPlatypusToSolve.html. It models the diagram by building a prototype
+chain with plain old Javascript objects, e.g. the prototype of the object
+mammal is animal, the prototype of the object dolphin is mammal, etc.
+
+The platypus is a special case. It's a mammal that also spawns. Since
+Javascript does not support one object to have multiple prototypes, we have to
+find an alternative solution that does not require us to duplicate the spawn
+function.
+
+I chose platypus to have mammal as its prototype, but assigned it the spawn
+method of oviparus as a property as well. This is possible since Javascript
+methods are mere properties on an object.
+
+I also introduced a name property on all animals for logging purposes. When
+clicking on the links in a browser, the Javascript console should log which
+animal received which function call.
+
+Note that there are more sophisticated ways of solving the lack of multiple
+inheritance. One could easily replicate mixin functionality in Javascript, e.g.
+as described here:
+https://javascriptweblog.wordpress.com/2011/05/31/a-fresh-look-at-javascript-mixins/.
+
 
 Exercise 3
 ==========
