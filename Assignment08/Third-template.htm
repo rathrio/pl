@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>University of Bern</title>
+</head>
+
+<body>
+
+
+
+<script type="text/javascript">
+
+var People = function () {
+  this.username = "Bern";
+  return this;
+};
+
+People.prototype.checkit = function() {
+  return this.username;
+}
+
+var p1 = Object.create(new People());
+console.log(p1.checkit());
+
+var p2 = new People();
+console.log(p2.checkit());
+
+</script>
+
+
+
+</body>
+
+</html>
