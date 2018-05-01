@@ -11,7 +11,9 @@ var Person = function(name, password) {
   }
 
   // The counter returned is a property defined on the constructor function
-  // itself. This is one way to "share" a value.
+  // itself. This is one way to "share" a value. Since it behaves like a
+  // "static" variable, it makes little sense to pass it in as a constructor
+  // argument.
   this.getCounter = function() {
     return Person.counter;
   }
