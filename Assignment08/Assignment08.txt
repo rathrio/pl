@@ -28,7 +28,7 @@ methods are mere properties on an object.
 
 I also introduced a name property on all animals for logging purposes. When
 clicking on the links in a browser, the Javascript console should log which
-animal received which function call.
+animal received which method call.
 
 Note that there are more sophisticated ways of solving the lack of multiple
 inheritance. One could easily replicate mixin functionality in Javascript, e.g.
