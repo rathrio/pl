@@ -1,14 +1,58 @@
 1. What is the difference between subtyping and subclassing? Provide an example
    for your explanation.
 
+   Subclassing is a way to reuse code of a superclass and make incremental
+   modifications, e.g. overriding methods and adding more behaviour. See
+   question 4 for an example.
+
+   Subtyping is introducing a type that can be used in place of the supertype.
+   The subtype does not necessarily have to be in a subclass relationship to
+   the supertype, but it must guarantee that it can be used in place of the
+   supertype, e.g. as method arguments to some function. It enforces
+   substitutability.
+
+   Example: If "A" is a subtype of "B", then it should be safe to provide an
+   object of type A to this method:
+
+       void doSomething(B whatever) {
+         // ...
+       }
+
+
 2. Using the Java class-interface hierarchy given in Figure 1, explain what is
    the relationship between classes and interfaces.
+
+   - X509ExtendedKeyManager is a subclass of Object
+   - X509ExtendedKeyManager is a subtype of X509KeyManager
+   - X509ExtendedKeyManager is a subtype of KeyManager
+   - X509KeyManager is a subtype of KeyManager
 
 3. Which forms of polymorphism are used in the Java code in Listing 1? Explain
    each of the forms.
 
 4. Use Java subclassing to better structure the code in Listing 2 and avoid
    code cloning.
+
+       class Bicycle {
+           private int frame_size;
+
+           // the price of this bicycle
+           public float price() { return 100 * 2; }
+
+           // the sales tax on this bicycle
+           public float salesTax() { return price() * .08; }
+       }
+
+       class RacingBicycle extends Bicycle {
+           private int framesize;
+           private int pieces_count;
+
+           // price() and salesTax() and now inherited from Bicycle
+
+           // returns the weight of this bicycle
+           public void calculateWeight()
+       }
+
 
 5. In the code in q5.zip explain how covariant and contravariant are used in
    each code block. Why are there compile-time errors if you try to run the
