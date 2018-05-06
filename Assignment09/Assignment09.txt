@@ -1,0 +1,15 @@
+1. What is the difference between subtyping and subclassing? Provide an example
+   for your explanation.
+
+2. Using the Java class-interface hierarchy given in Figure 1, explain what is
+   the relationship between classes and interfaces.
+
+3. Which forms of polymorphism are used in the Java code in Listing 1? Explain
+   each of the forms.
+
+4. Use Java subclassing to better structure the code in Listing 2 and avoid
+   code cloning.
+
+5. In the code in q5.zip explain how covariant and contravariant are used in
+   each code block. Why are there compile-time errors if you try to run the
+   code?
