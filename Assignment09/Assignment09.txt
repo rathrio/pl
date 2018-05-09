@@ -97,15 +97,17 @@
        (9)    list_of_automobiles.remove(0);
       (10)    System.out.println(list_of_automobiles);
 
-   add() is covariant in its argument, so line (5) will result in an error,
-   because we try to pass an object that is not a Car, nor in a subtype
+   add() is covariant in its argument type, so line (5) will result in an
+   error, because we try to pass an object that is not a Car, nor in a subtype
    relationship to a Car.
 
-   Generics are usually neither covariant, nor contravariant, but line (7) will
-   work (given line (5) is ignored) because we use a wildcard to define an
-   "upper bound" for types. Thus list_of_automobiles can be assigned to any
-   List with Automobiles or subtypes of Automobiles, e.g. a List of Cars
-   (covariance). Also for this reason line (8) won't work.
+   Generics are usually invariant, but line (7) is ok because we use a wildcard
+   to define an "upper bound" for types. Thus "list_of_automobiles" can be
+   assigned to any List with Automobiles or subtypes of Automobiles, e.g. a
+   List of Cars (i.e. "list_of_automobiles" is a covariant reference). Line (8)
+   will fail, because "list_of_automobiles" is now a covariant reference that
+   expects a List of Trucks or subtypes of Trucks, but we try to assign a List
+   of Cars.
    
        (1)    //--------------- Block2
        (2)    List<Number> list_of_ints = new ArrayList<>();
@@ -118,7 +120,8 @@
 
    Here, line (5) is ok, because we achieve contravariance for the assignment
    and for subsequent adds, thus line (7) will fail because we provide a value
-   of type float (or double), which is not a superclass of Integer.
+   of type float (or double). I.e. "list_of_numbers" is a contravariant
+   reference.
 
        (1)    //------------- Block3
        (2)    List<Automobile> aList = new ArrayList<>();
@@ -128,3 +131,6 @@
        (6)    bList.add(new Truck());
        (7)    bList.add(new Minicar());
        (8)    System.out.println(bList);
+
+   As in Block2, we create a contravariant reference "bList" on line (4). Since
+   Truck is not a superclass of Car, line (6) will fail.
