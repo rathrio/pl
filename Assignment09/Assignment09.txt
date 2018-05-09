@@ -85,3 +85,34 @@
 5. In the code in q5.zip explain how covariant and contravariant are used in
    each code block. Why are there compile-time errors if you try to run the
    code?
+
+       (1)    //-------------- Block1
+       (2)    List<Car> list_of_cars = new ArrayList<>();
+       (3)    list_of_cars.add(new Car());
+       (4)    list_of_cars.add(new Car());
+       (5)    list_of_cars.add(new Truck());
+       (6)    list_of_cars.add(new Minicar());
+       (7)    List<? extends Automobile> list_of_automobiles = list_of_cars;
+       (8)    List<? extends Truck> list_of_automobiles = list_of_cars;
+       (9)    list_of_automobiles.remove(0);
+      (10)    System.out.println(list_of_automobiles);
+   
+
+       (1)    //--------------- Block2
+       (2)    List<Number> list_of_ints = new ArrayList<>();
+       (3)    list_of_ints.add(1);
+       (4)    list_of_ints.add(2);
+       (5)    List<? super Integer> list_of_numbers = list_of_ints;
+       (6)    list_of_numbers.add(3);
+       (7)    list_of_numbers.add(4.2);
+       (8)    System.out.println(list_of_numbers);
+
+
+       (1)    //------------- Block3
+       (2)    List<Automobile> aList = new ArrayList<>();
+       (3)    aList.add(new Automobile());
+       (4)    List<? super Car> bList = aList;
+       (5)    bList.add(new Car());
+       (6)    bList.add(new Truck());
+       (7)    bList.add(new Minicar());
+       (8)    System.out.println(bList);
