@@ -18,6 +18,8 @@
          // ...
        }
 
+   This statement does not necessarily hold if "A" is merely a subclass of "B".
+
 
 2. Using the Java class-interface hierarchy given in Figure 1, explain what is
    the relationship between classes and interfaces.
@@ -29,6 +31,32 @@
 
 3. Which forms of polymorphism are used in the Java code in Listing 1? Explain
    each of the forms.
+
+       (1)    public class Bern<TT> {
+       (2)        private TT var1;
+       (3)        public void set(TT mh) { this.var1 = mh; }
+       (4)        public TT get() { return var1; }
+       (5)
+       (6)        public static void main(String[] args) {
+       (7)            int a = 3;
+       (8)            float b = 2F;
+       (9)            b = a;
+      (10)            System.out.println(b);
+      (11)            Bern<Integer> mj = new Bern();
+      (12)            mj.set(12);
+      (13)            System.out.println(mj.get());
+      (14)        }
+      (15)    }
+
+   - The class Bern shows the use of parametric polymorhism. This is a good
+     example for thinking of classes as being generators of types. Bern can be
+     used to generate type specific methods, given a type as a parameter, e.g.
+     (10).
+   - The assignment on line (8) shows the use of coercion. Java will coerce the
+     int referenced by "a" to a float in order to assign it to the variable "b"
+     which has type float.
+   - System.out.println on line (10) and (13) shows the use of overloaded
+     methods. There is a println(float x) and a println(int x).
 
 4. Use Java subclassing to better structure the code in Listing 2 and avoid
    code cloning.
