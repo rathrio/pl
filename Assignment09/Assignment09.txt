@@ -8,7 +8,7 @@
    Subtyping is introducing a type that can be used in place of the supertype.
    The subtype does not necessarily have to be in a subclass relationship to
    the supertype, but it must guarantee that it can be used in place of the
-   supertype, e.g. as method arguments to some function. It enforces
+   supertype, e.g. as method arguments to some function. Subtyping enforces
    substitutability.
 
    Example: If "A" is a subtype of "B", then it should be safe to provide an
@@ -48,10 +48,10 @@
       (14)        }
       (15)    }
 
-   - The class Bern shows the use of parametric polymorhism. This is a good
+   - The class Bern shows the use of parametric polymorphism. This is a good
      example for thinking of classes as being generators of types. Bern can be
-     used to generate type specific methods, given a type as a parameter, e.g.
-     (10).
+     used to generate a more type specific class given a type as a parameter,
+     e.g. (11).
    - The assignment on line (8) shows the use of coercion. Java will coerce the
      int referenced by "a" to a float in order to assign it to the variable "b"
      which has type float.
@@ -75,7 +75,7 @@
            private int framesize;
            private int pieces_count;
 
-           // price() and salesTax() and now inherited from Bicycle
+           // price() and salesTax() are now inherited from Bicycle
 
            // returns the weight of this bicycle
            public void calculateWeight()
