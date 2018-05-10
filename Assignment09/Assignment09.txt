@@ -105,9 +105,9 @@
    to define an "upper bound" for types. Thus "list_of_automobiles" can be
    assigned to any List with Automobiles or subtypes of Automobiles, e.g. a
    List of Cars (i.e. "list_of_automobiles" is a covariant reference). Line (8)
-   will fail, because "list_of_automobiles" is now a covariant reference that
-   expects a List of Trucks or subtypes of Trucks, but we try to assign a List
-   of Cars.
+   is not allowed, because "list_of_automobiles" is now a covariant reference
+   that expects a List of Trucks or subtypes of Trucks, but we try to assign a
+   List of Cars.
    
        (1)    //--------------- Block2
        (2)    List<Number> list_of_ints = new ArrayList<>();
@@ -119,9 +119,10 @@
        (8)    System.out.println(list_of_numbers);
 
    Here, line (5) is ok, because we achieve contravariance for the assignment
-   and for subsequent adds, thus line (7) will fail because we provide a value
-   of type float (or double). I.e. "list_of_numbers" is a contravariant
-   reference.
+   by using a "lower bound" wild card. Hence assigning a List of super type of
+   Integer, such as Number, to "list_of_numbers" will work. Since add is
+   covariant in it's argument type, and line (7) passes a double (or float),
+   it's not allowed.
 
        (1)    //------------- Block3
        (2)    List<Automobile> aList = new ArrayList<>();
@@ -132,5 +133,6 @@
        (7)    bList.add(new Minicar());
        (8)    System.out.println(bList);
 
-   As in Block2, we create a contravariant reference "bList" on line (4). Since
-   Truck is not a superclass of Car, line (6) will fail.
+   As in Block2, we create a contravariant reference "bList" on line (4).
+   That's why assigning "aList", a List of supertype Automobile, is ok. Since
+   add is covariant, line (6) is not allowed.
