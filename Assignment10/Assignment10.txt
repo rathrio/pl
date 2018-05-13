@@ -3,7 +3,8 @@ Exercise 1
 
 If you want to test these, load playground.pl, e.g. "swipl -s playground.pl".
 I copied the royal.pl definitions presented in the lecture and modified it a
-little in order to test the required rules.
+little in order to test the required rules. There's a new person named "pop" in
+there that should be a grandpa of some.
 
     grandparent(X, Y) :-
         parent(X, P),
