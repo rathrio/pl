@@ -1,0 +1,39 @@
+Exercise 1
+==========
+
+grandparent(X, Y) :-
+    parent(X, P),
+    parent(P, Y).
+
+grandfather(X, Y) :-
+    grandparent(X, Y),
+    male(Y).
+
+grandmother(X, Y) :-
+    grandparent(X, Y),
+    female(Y).
+
+child(X, Y) :-
+    parent(Y, X).
+
+son(X, Y) :-
+    child(X, Y),
+    male(Y).
+
+daughter(X, Y) :-
+    child(X, Y),
+    female(Y).
+
+grandchild(X, Y) :-
+    grandparent(Y, X).
+
+grandson(X, Y) :-
+    grandchild(X, Y),
+    male(Y).
+
+granddaughter(X, Y) :-
+    grandchild(X, Y),
+    female(Y).
+
+Exercise 2
+==========
