@@ -1,39 +1,62 @@
 Exercise 1
 ==========
 
-grandparent(X, Y) :-
-    parent(X, P),
-    parent(P, Y).
+If you want to test these, load playground.pl, e.g. "swipl -s playground.pl".
+I copied the royal.pl definitions presented in the lecture and modified it a
+little in order to test the required rules.
 
-grandfather(X, Y) :-
-    grandparent(X, Y),
-    male(Y).
+    grandparent(X, Y) :-
+        parent(X, P),
+        parent(P, Y).
 
-grandmother(X, Y) :-
-    grandparent(X, Y),
-    female(Y).
+    grandfather(X, Y) :-
+        grandparent(X, Y),
+        male(Y).
 
-child(X, Y) :-
-    parent(Y, X).
+    grandmother(X, Y) :-
+        grandparent(X, Y),
+        female(Y).
 
-son(X, Y) :-
-    child(X, Y),
-    male(Y).
+    child(X, Y) :-
+        parent(Y, X).
 
-daughter(X, Y) :-
-    child(X, Y),
-    female(Y).
+    son(X, Y) :-
+        child(X, Y),
+        male(Y).
 
-grandchild(X, Y) :-
-    grandparent(Y, X).
+    daughter(X, Y) :-
+        child(X, Y),
+        female(Y).
 
-grandson(X, Y) :-
-    grandchild(X, Y),
-    male(Y).
+    grandchild(X, Y) :-
+        grandparent(Y, X).
 
-granddaughter(X, Y) :-
-    grandchild(X, Y),
-    female(Y).
+    grandson(X, Y) :-
+        grandchild(X, Y),
+        male(Y).
+
+    granddaughter(X, Y) :-
+        grandchild(X, Y),
+        female(Y).
+
 
 Exercise 2
 ==========
+
+You can also test these by loading playground.pl.
+
+    even_number_of_elements([]).         % Base case.
+    even_number_of_elements([_|T]) :-    % Even if tail is odd.
+        odd_number_of_elements(T).
+
+    odd_number_of_elements([_|T]) :-     % Odd if tail is even.
+        even_number_of_elements(T).      % Note for only 1 element the base case
+                                         % of even will match for the tail.
+
+
+    palindrome([]).                      % Empty list is a palindrome.
+    palindrome([_]).                     % 1 element list as well.
+    palindrome(List) :-
+        append([H|T], [H], List),        % i.e. first element = last element...
+        palindrome(T).                   % ... and same applies recursivly for the
+                                         % rest in the middle?

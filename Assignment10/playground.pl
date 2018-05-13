@@ -34,36 +34,6 @@ father(X, M) :-
 	parent(X,M),
 	male(M).
 
-grandparent(X, Y) :-
-    parent(X, P),
-    parent(P, Y).
-
-grandfather(X, Y) :-
-  grandparent(X, Y),
-  male(Y).
-
-child(X, Y) :-
-  parent(Y, X).
-
-son(X, Y) :-
-  child(X, Y),
-  male(Y).
-
-daughter(X, Y) :-
-  child(X, Y),
-  female(Y).
-
-grandchild(X, Y) :-
-  grandparent(Y, X).
-
-grandson(X, Y) :-
-  grandchild(X, Y),
-  male(Y).
-
-granddaughter(X, Y) :-
-  grandchild(X, Y),
-  female(Y).
-
 sibling(X, Y) :-	mother(X, M), mother(Y, M),
 	father(X, F), father(Y, F),
 	X \== Y.
@@ -78,6 +48,8 @@ aunt(X, A) :-	parent(X, P), sister(P, A).
 
 isparent(C, P) :-	mother(C, P); father(C, P).
 
+
+
 /* equivalently:
 isparent(C, P) :-	mother(C, P).
 isparent(C, P) :-	father(C, P).
@@ -90,3 +62,51 @@ ancestor(X, A) :-	parent(X, A).
 ancestor(X, A) :-
 	parent(X, P),
 	ancestor(P, A).
+
+
+grandparent(X, Y) :-
+    parent(X, P),
+    parent(P, Y).
+
+grandfather(X, Y) :-
+    grandparent(X, Y),
+    male(Y).
+
+child(X, Y) :-
+    parent(Y, X).
+
+son(X, Y) :-
+    child(X, Y),
+    male(Y).
+
+daughter(X, Y) :-
+    child(X, Y),
+    female(Y).
+
+grandchild(X, Y) :-
+    grandparent(Y, X).
+
+grandson(X, Y) :-
+    grandchild(X, Y),
+    male(Y).
+
+granddaughter(X, Y) :-
+    grandchild(X, Y),
+    female(Y).
+
+
+even_number_of_elements([]).         % Base case.
+even_number_of_elements([_|T]) :-    % Even if tail is odd.
+    odd_number_of_elements(T).
+
+odd_number_of_elements([_|T]) :-     % Odd if tail is even.
+    even_number_of_elements(T).      % Note for only 1 element the base case
+                                     % of even will match for the tail.
+
+
+palindrome([]).                      % Empty list is a palindrome.
+palindrome([_]).                     % 1 element list as well.
+palindrome(List) :-
+    append([H|T], [H], List),        % i.e. first element = last element...
+    palindrome(T).                   % ... and same applies recursivly for the
+                                     % rest in the middle?
