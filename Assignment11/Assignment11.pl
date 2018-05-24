@@ -7,16 +7,18 @@ sentence --> pronoun, predicate(for_pronoun_subjects), object.
 subject --> article, noun.
 subject --> pronoun.
 
-predicate(without_oject) --> [sleeps].
-predicate(for_article_noun_subjects) --> [likes].
-predicate(for_pronoun_subjects) --> [is].
+predicate(without_oject) --> verb(without_oject).
+predicate(for_article_noun_subjects) --> verb(for_article_noun_subjects).
+predicate(for_pronoun_subjects) --> auxiliary.
+
+verb(without_oject) --> [sleeps].
+verb(for_article_noun_subjects) --> [likes].
+auxiliary --> [is].
 
 object --> article, noun.
 
 article --> [a].
 article --> [the].
-article --> [that].
-article --> [this].
 
 pronoun --> [this].
 pronoun --> [that].
